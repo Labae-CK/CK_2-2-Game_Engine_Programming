@@ -43,6 +43,8 @@ public class CameraManager : MonoBehaviour
     private float _currentZoomPosition;
     private float _currentZoomPositionVelocity;
 
+    private Camera _mainCamera;
+
     private void Awake()
     {
         _targetPosition = _rootTransform.position;
@@ -56,6 +58,8 @@ public class CameraManager : MonoBehaviour
 
         _targetZoomPosition = _cameraTransform.localPosition.z;
         _currentZoomPosition = _cameraTransform.localPosition.z;
+
+        _mainCamera = Camera.main;
     }
 
     private void Update()
@@ -112,6 +116,19 @@ public class CameraManager : MonoBehaviour
 
         _currentZoomPosition = Mathf.SmoothDamp(_currentZoomPosition, _targetZoomPosition, ref _currentZoomPositionVelocity, _smoothZoomSpeed);
         _cameraTransform.localPosition = new Vector3(0.0f, 0.0f, _currentZoomPosition);
+    }
+
+    public void SetTargetPosition(Vector3 value)
+    {
+        _targetPosition = value;
+    }
+
+    public Camera MainCamera 
+    {
+        get
+        {
+            return _mainCamera;
+        }
     }
 
     public Vector2 CurrentMovementInput
