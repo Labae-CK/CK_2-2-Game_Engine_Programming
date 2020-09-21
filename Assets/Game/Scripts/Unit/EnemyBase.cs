@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class EnemyBase : UnitBase
 {
     [SerializeField] private NavMeshAgent _navMeshAgent;
-    [SerializeField] private WeaponBase _weaponBase;
 
     private Core _core;
     private WaitForSeconds _tickRateWFS;
@@ -28,8 +27,8 @@ public class EnemyBase : UnitBase
         base.HandleSpawn();
 
         _core = GameManager.Instance.Core;
-        _weaponBase = Instantiate(_weaponBase);
-        _weaponBase.Initialize(this);
+        Weapon = Instantiate(Weapon);
+        Weapon.Initialize(this);
         StartCoroutine(AI());
     }
 
@@ -55,7 +54,7 @@ public class EnemyBase : UnitBase
             {
                 _navMeshAgent.SetDestination(_core.transform.position);
 
-                if(Vector3.Distance(transform.position, _core.transform.position) < _weaponBase.Range)
+                if(Vector3.Distance(transform.position, _core.transform.position) < Weapon.Range)
                 {
                     Attack(_core);
                 }
